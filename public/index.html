@@ -39,13 +39,16 @@
             antialias: true
         });
         renderer.setClearColor(0x000000);
-        renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
-
+        var mesh
         const loader = new THREE.GLTFLoader();
         loader.load('/blender-files/soccerballanim.glb', function (gltf) {
+            mesh = gltf.scene.children[0];
+            mesh.position.z = -10;
             scene.add(gltf.scene);
+            scene.add(mesh);
             gltf.animations;
             gltf.scene;
             gltf.scenes;
