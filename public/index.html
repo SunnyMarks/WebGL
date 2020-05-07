@@ -19,11 +19,11 @@
     <canvas id="myCanvas"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>
     <script src="./jsfiles/OrbitControls.js"></script>
-
     <script src="./jsfiles/GLTFLoader.js"></script>
+
     <script>
         let ball;
-
+        var clock = new THREE.Clock();
         const scene = new THREE.Scene();
 
         //Create a light
@@ -48,22 +48,44 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        var mesh
+        var gltfData = {};
+
         const loader = new THREE.GLTFLoader();
         loader.load('/blender-files/soccerballanim.glb', function (gltf) {
-            mesh = gltf.scene.children[0];
-            mesh.position.z = -10;
+            gltfData.animations = gltf.animations;
+            gltfData.ball = gltf.scene.children[0];
+            gltfData.ball.position.z = -10;
+
             scene.add(gltf.scene);
-            scene.add(mesh);
-            gltf.animations;
-            gltf.scene;
-            gltf.scenes;
-            gltf.cameras;
-            gltf.asset;
+            scene.add(gltfData.ball);
+            // gltf.scene;
+            // gltf.scenes;
+            // gltf.cameras;
+            // gltf.asset;
+
+            gltfData.mixer = new THREE.AnimationMixer(gltf.scene);
+
+            function update() {
+                gltfData.mixer.update(deltaSeconds);
+            }
+
+            clips = gltfData.animations;
+            clip = THREE.AnimationClip.findByName(clips, 'IcosphereAction');
+
+            gltfData.mixer.clipAction(clip).play();
+
+            clips.forEach(function (clip) {
+                gltfData.mixer.clipAction(clip).play();
+            });
+
+
+            render();
+
         }, undefined, function (error) {
             console.log(error);
         });
 
+        console.log(gltfData);
         //Create new Grid Helper to see orgin
         scene.add(new THREE.GridHelper(5, 50));
 
@@ -71,7 +93,6 @@
         var axesHelper = new THREE.AxesHelper(5);
         scene.add(axesHelper);
 
-        var delta = 0;
         const prevTime = Date.now();
 
         function render() {
@@ -79,6 +100,7 @@
             renderer.render(scene, camera);
 
             requestAnimationFrame(render);
+            var delta = clock.getDelta();
         }
         render();
 
