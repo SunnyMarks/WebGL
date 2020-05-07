@@ -48,21 +48,30 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        var mesh
+        var gltfData = {};
+
         const loader = new THREE.GLTFLoader();
         loader.load('/blender-files/soccerballanim.glb', function (gltf) {
-            mesh = gltf.scene.children[0];
-            mesh.position.z = -10;
             scene.add(gltf.scene);
-            scene.add(mesh);
-            gltf.animations;
+            gltfData.animations = gltf.animations;
+            gltfData.ball = gltf.scene.children[0];
+            gltfData.ball.position.z = -10;
+
+            scene.add(gltfData.ball);
             gltf.scene;
             gltf.scenes;
             gltf.cameras;
             gltf.asset;
+
+            gltfData.mixer = new THREE.AnimationMixer(gltf.scene);
+
+
+            gltfData.mixer.clipAction(gltfData.animations[0]).play();
+
         }, undefined, function (error) {
             console.log(error);
         });
+
 
         //Create new Grid Helper to see orgin
         scene.add(new THREE.GridHelper(5, 50));
