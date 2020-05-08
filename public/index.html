@@ -48,6 +48,53 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
+        //_____________________
+        //found tutorial
+
+        //reusable function
+        function loadModels() {
+
+
+        }
+
+        //new loader
+        const loader = new THREE.GLTFLoader();
+
+        const url = '/blender-files/Parrot.glb';
+
+        const onLoad = (gltf, position) => {
+
+            const model = gltf.scene.children[0];
+            model.postion.copy(position);
+
+            const animation = gltf.animations[0];
+
+            const mixer = new THREE.AnimationMixer(model);
+            mixer.push(mixer);
+
+            const action = mixer.clipAction(animation);
+            action.play();
+
+            scene.add(model);
+
+
+        };
+
+        loader.load(url, onLoad);
+
+
+        // loader.load(
+
+        //     // param 1: url
+        //     '/blender-files/Flamingo.glb',
+        //     '/blender-files/Parrot.glb'
+        //     '/blender-files/Stork.glb'
+
+        //     // param 2: onload callback
+        //     gltf => onLoad(gltf, parrotPosition)
+        // );
+
+
 
         //compare********************************************************************
 
