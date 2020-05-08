@@ -35,7 +35,7 @@
         scene.add(new THREE.PointLightHelper(light, 0.3));  //target, size
 
         const camera = new THREE.PerspectiveCamera(75, window.innerHeight / window.innerHeight, 0.1, 1000);
-        camera.position.set(3, 3, -5);
+        camera.position.set(-1.5, 1.5, 6.5);
 
         // Setup camera controller
         const controls = new THREE.OrbitControls(camera, myCanvas);
@@ -48,44 +48,57 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        var gltfData = {};
 
-        const loader = new THREE.GLTFLoader();
-        loader.load('/blender-files/soccerballanim.glb', function (gltf) {
-            gltfData.animations = gltf.animations;
-            gltfData.ball = gltf.scene.children[0];
-            gltfData.ball.position.z = -10;
+        //compare********************************************************************
 
-            scene.add(gltf.scene);
-            scene.add(gltfData.ball);
-            // gltf.scene;
-            // gltf.scenes;
-            // gltf.cameras;
-            // gltf.asset;
+        // var gltfData = {};
 
-            gltfData.mixer = new THREE.AnimationMixer(gltf.scene);
+        // const loader = new THREE.GLTFLoader();
+        // loader.load('/blender-files/soccerballanim.glb', function (gltf) {
 
-            function update() {
-                gltfData.mixer.update(deltaSeconds);
-            }
-
-            clips = gltfData.animations;
-            clip = THREE.AnimationClip.findByName(clips, 'IcosphereAction');
-
-            gltfData.mixer.clipAction(clip).play();
-
-            clips.forEach(function (clip) {
-                gltfData.mixer.clipAction(clip).play();
-            });
+        //     scene.add(gltf.scene);
+        //     console.log("loaded")
+        //     console.log(gltf.animations.length)
 
 
-            render();
+        //     gltfData.animations = gltf.animations;
+        //     // gltfData.ball = gltf.scene.children[0];
+        //     // gltfData.ball.position.z = -10;
 
-        }, undefined, function (error) {
-            console.log(error);
-        });
+        //     gltf.scene;
+        //     gltf.scenes;
+        //     gltf.cameras;
+        //     gltf.asset;
 
-        console.log(gltfData);
+        //     mixer = new THREE.AnimationMixer(gltf.scene);
+        //     // console.log(gltfData.animations)
+        //     // clip = new THREE.AnimationClip.findByName(gltfData.animations[0], 'IcosphereAction');
+        //     var action = mixer.clipAction(gltfData.animations[0]);
+        //     // console.log(action)
+        //     action.play();
+
+
+
+
+        //     var delta = clock.getDelta();
+        //     mixer.update(delta);
+
+        //     // clips.forEach(function (clip) {
+        //     //     action.play();
+        //     // });
+
+        //     render();
+
+
+
+        // }, undefined, function (error) {
+        //     console.log(error);
+        // });
+
+        // console.log(gltfData);
+
+        //compare*******************************************************************
+
         //Create new Grid Helper to see orgin
         scene.add(new THREE.GridHelper(5, 50));
 
@@ -97,9 +110,11 @@
 
         function render() {
 
+            requestAnimationFrame(render);
+
+
             renderer.render(scene, camera);
 
-            requestAnimationFrame(render);
             var delta = clock.getDelta();
         }
         render();
