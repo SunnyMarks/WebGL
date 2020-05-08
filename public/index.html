@@ -52,34 +52,39 @@
 
         const loader = new THREE.GLTFLoader();
         loader.load('/blender-files/soccerballanim.glb', function (gltf) {
+
+            scene.add(gltf.scene);
+
             gltfData.animations = gltf.animations;
             gltfData.ball = gltf.scene.children[0];
             gltfData.ball.position.z = -10;
 
-            scene.add(gltf.scene);
-            scene.add(gltfData.ball);
-            // gltf.scene;
-            // gltf.scenes;
-            // gltf.cameras;
-            // gltf.asset;
+            gltf.scene;
+            gltf.scenes;
+            gltf.cameras;
+            gltf.asset;
 
-            gltfData.mixer = new THREE.AnimationMixer(gltf.scene);
+            mixer = new THREE.AnimationMixer(gltf.scene);
 
-            function update() {
-                gltfData.mixer.update(deltaSeconds);
-            }
+            // function update() {
+            //     mixer.update(deltaSeconds);
+            // }
 
-            clips = gltfData.animations;
+            clips = gltfData.animations[0];
             clip = THREE.AnimationClip.findByName(clips, 'IcosphereAction');
 
-            gltfData.mixer.clipAction(clip).play();
+            var delta = clock.getDelta();
+            var action = mixer.clipAction(clip);
+            mixer.update(delta);
+            action.play();
 
-            clips.forEach(function (clip) {
-                gltfData.mixer.clipAction(clip).play();
-            });
-
+            // clips.forEach(function (clip) {
+            //     action.play();
+            // });
 
             render();
+
+
 
         }, undefined, function (error) {
             console.log(error);
@@ -97,9 +102,11 @@
 
         function render() {
 
+            requestAnimationFrame(render);
+
+
             renderer.render(scene, camera);
 
-            requestAnimationFrame(render);
             var delta = clock.getDelta();
         }
         render();
