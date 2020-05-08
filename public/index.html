@@ -35,7 +35,7 @@
         scene.add(new THREE.PointLightHelper(light, 0.3));  //target, size
 
         const camera = new THREE.PerspectiveCamera(75, window.innerHeight / window.innerHeight, 0.1, 1000);
-        camera.position.set(3, 3, -5);
+        camera.position.set(-1.5, 1.5, 6.5);
 
         // Setup camera controller
         const controls = new THREE.OrbitControls(camera, myCanvas);
@@ -48,51 +48,57 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        var gltfData = {};
 
-        const loader = new THREE.GLTFLoader();
-        loader.load('/blender-files/soccerballanim.glb', function (gltf) {
+        //compare********************************************************************
 
-            scene.add(gltf.scene);
-            console.log("loaded")
-            console.log(gltf.animations.length)
+        // var gltfData = {};
 
+        // const loader = new THREE.GLTFLoader();
+        // loader.load('/blender-files/soccerballanim.glb', function (gltf) {
 
-            gltfData.animations = gltf.animations;
-            // gltfData.ball = gltf.scene.children[0];
-            // gltfData.ball.position.z = -10;
-
-            gltf.scene;
-            gltf.scenes;
-            gltf.cameras;
-            gltf.asset;
-
-            mixer = new THREE.AnimationMixer(gltf.scene);
-            // console.log(gltfData.animations)
-            // clip = new THREE.AnimationClip.findByName(gltfData.animations[0], 'IcosphereAction');
-            var action = mixer.clipAction(gltfData.animations[0]);
-            // console.log(action)
-            action.play();
+        //     scene.add(gltf.scene);
+        //     console.log("loaded")
+        //     console.log(gltf.animations.length)
 
 
+        //     gltfData.animations = gltf.animations;
+        //     // gltfData.ball = gltf.scene.children[0];
+        //     // gltfData.ball.position.z = -10;
 
+        //     gltf.scene;
+        //     gltf.scenes;
+        //     gltf.cameras;
+        //     gltf.asset;
 
-            var delta = clock.getDelta();
-            mixer.update(delta);
-
-            // clips.forEach(function (clip) {
-            //     action.play();
-            // });
-
-            render();
+        //     mixer = new THREE.AnimationMixer(gltf.scene);
+        //     // console.log(gltfData.animations)
+        //     // clip = new THREE.AnimationClip.findByName(gltfData.animations[0], 'IcosphereAction');
+        //     var action = mixer.clipAction(gltfData.animations[0]);
+        //     // console.log(action)
+        //     action.play();
 
 
 
-        }, undefined, function (error) {
-            console.log(error);
-        });
 
-        console.log(gltfData);
+        //     var delta = clock.getDelta();
+        //     mixer.update(delta);
+
+        //     // clips.forEach(function (clip) {
+        //     //     action.play();
+        //     // });
+
+        //     render();
+
+
+
+        // }, undefined, function (error) {
+        //     console.log(error);
+        // });
+
+        // console.log(gltfData);
+
+        //compare*******************************************************************
+
         //Create new Grid Helper to see orgin
         scene.add(new THREE.GridHelper(5, 50));
 
