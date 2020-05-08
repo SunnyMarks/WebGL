@@ -54,10 +54,13 @@
         loader.load('/blender-files/soccerballanim.glb', function (gltf) {
 
             scene.add(gltf.scene);
+            console.log("loaded")
+            console.log(gltf.animations.length)
+
 
             gltfData.animations = gltf.animations;
-            gltfData.ball = gltf.scene.children[0];
-            gltfData.ball.position.z = -10;
+            // gltfData.ball = gltf.scene.children[0];
+            // gltfData.ball.position.z = -10;
 
             gltf.scene;
             gltf.scenes;
@@ -65,18 +68,17 @@
             gltf.asset;
 
             mixer = new THREE.AnimationMixer(gltf.scene);
+            // console.log(gltfData.animations)
+            // clip = new THREE.AnimationClip.findByName(gltfData.animations[0], 'IcosphereAction');
+            var action = mixer.clipAction(gltfData.animations[0]);
+            // console.log(action)
+            action.play();
 
-            // function update() {
-            //     mixer.update(deltaSeconds);
-            // }
 
-            clips = gltfData.animations[0];
-            clip = THREE.AnimationClip.findByName(clips, 'IcosphereAction');
+
 
             var delta = clock.getDelta();
-            var action = mixer.clipAction(clip);
             mixer.update(delta);
-            action.play();
 
             // clips.forEach(function (clip) {
             //     action.play();
