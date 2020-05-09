@@ -32,6 +32,8 @@
         light.position.set(-5, 5, 0);
         scene.add(light);
 
+
+        scene.background = new THREE.Color(0xe0e0e0);
         //Create new Light Helper to see light position
         scene.add(new THREE.PointLightHelper(light, 0.3));  //target, size
 
@@ -40,6 +42,13 @@
 
         // Setup camera controller
         const controls = new THREE.OrbitControls(camera, myCanvas);
+
+        //Create new Grid Helper to see orgin
+        scene.add(new THREE.GridHelper(5, 50));
+
+        //Create new Axis Heler to see the axis
+        var axesHelper = new THREE.AxesHelper(5);
+        scene.add(axesHelper);
 
         const renderer = new THREE.WebGLRenderer({
             canvas: myCanvas,
@@ -52,13 +61,6 @@
         //_____________________
         //found tutorial
 
-        //reusable function
-        // function loadModels() {
-
-
-        // }
-
-        // const url = '/blender-files/Parrot.glb';
 
         //new loader
         const loader = new THREE.GLTFLoader();
@@ -79,10 +81,10 @@
 
             const mixer = new THREE.AnimationMixer(model);
             // console.log(mixer);
-            mixers.push(mixer);
 
             const action = mixer.clipAction(animation);
             action.play();
+            mixers.push(mixer);
 
             scene.add(model);
 
@@ -101,21 +103,6 @@
 
         loader.load('/blender-files/Stork.glb', gltf => onLoad(gltf, storkPosition));
 
-
-
-        // loader.load(url, onLoad);
-
-
-        // loader.load(
-
-        //     // param 1: url
-        //     '/blender-files/Flamingo.glb',
-        //     '/blender-files/Parrot.glb'
-        //     '/blender-files/Stork.glb'
-
-        //     // param 2: onload callback
-        //     gltf => onLoad(gltf, parrotPosition)
-        // );
 
 
 
@@ -169,14 +156,15 @@
 
         //compare*******************************************************************
 
-        //Create new Grid Helper to see orgin
-        scene.add(new THREE.GridHelper(5, 50));
 
-        //Create new Axis Heler to see the axis
-        var axesHelper = new THREE.AxesHelper(5);
-        scene.add(axesHelper);
 
         const prevTime = Date.now();
+
+        function update() {
+
+
+
+        }
 
         function render() {
 
@@ -193,6 +181,7 @@
 
         }
         render();
+        update();
 
 
 
