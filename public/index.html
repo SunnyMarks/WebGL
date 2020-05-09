@@ -35,7 +35,7 @@
         scene.add(new THREE.PointLightHelper(light, 0.3));  //target, size
 
         const camera = new THREE.PerspectiveCamera(75, window.innerHeight / window.innerHeight, 0.1, 1000);
-        camera.position.set(-1.5, 1.5, 6.5);
+        camera.position.set(-6, 3.5, 13.5);
 
         // Setup camera controller
         const controls = new THREE.OrbitControls(camera, myCanvas);
@@ -52,25 +52,33 @@
         //found tutorial
 
         //reusable function
-        function loadModels() {
+        // function loadModels() {
 
 
-        }
+        // }
+
+        // const url = '/blender-files/Parrot.glb';
 
         //new loader
         const loader = new THREE.GLTFLoader();
 
-        const url = '/blender-files/Parrot.glb';
 
         const onLoad = (gltf, position) => {
 
             const model = gltf.scene.children[0];
-            model.postion.copy(position);
+            // console.log(gltf);
+            console.log(model.position);
+            var newPosition = Object.assign(model.position, position);
+            console.log(model.position);
+            console.log(model);
+            model.scale.set(0.05, 0.05, 0.05);
+
 
             const animation = gltf.animations[0];
 
             const mixer = new THREE.AnimationMixer(model);
-            mixer.push(mixer);
+            // console.log(mixer);
+            // mixers.push(mixer);
 
             const action = mixer.clipAction(animation);
             action.play();
@@ -80,7 +88,21 @@
 
         };
 
-        loader.load(url, onLoad);
+        const parrotPosition = new THREE.Vector3(-2, 2, 4);
+
+        loader.load('/blender-files/Parrot.glb', gltf => onLoad(gltf, parrotPosition));
+
+        const flamingoPosition = new THREE.Vector3(7.5, 2, 0);
+
+        loader.load('/blender-files/Flamingo.glb', gltf => onLoad(gltf, flamingoPosition));
+
+        const storkPosition = new THREE.Vector3(-5, 2.5, -5);
+
+        loader.load('/blender-files/Stork.glb', gltf => onLoad(gltf, storkPosition));
+
+
+
+        // loader.load(url, onLoad);
 
 
         // loader.load(
