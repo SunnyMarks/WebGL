@@ -23,8 +23,9 @@
 
     <script>
         let ball;
-        var clock = new THREE.Clock();
         const scene = new THREE.Scene();
+        const mixers = [];
+        const clock = new THREE.Clock();
 
         //Create a light
         const light = new THREE.DirectionalLight('#ffffff', 0.9);
@@ -67,10 +68,10 @@
 
             const model = gltf.scene.children[0];
             // console.log(gltf);
-            console.log(model.position);
+            // console.log(model.position);
             var newPosition = Object.assign(model.position, position);
-            console.log(model.position);
-            console.log(model);
+            // console.log(model.position);
+
             model.scale.set(0.05, 0.05, 0.05);
 
 
@@ -78,7 +79,7 @@
 
             const mixer = new THREE.AnimationMixer(model);
             // console.log(mixer);
-            // mixers.push(mixer);
+            mixers.push(mixer);
 
             const action = mixer.clipAction(animation);
             action.play();
@@ -181,10 +182,15 @@
 
             requestAnimationFrame(render);
 
+            var delta = clock.getDelta();
+
+            for (const mixer of mixers) {
+                mixer.update(delta);
+            }
+
 
             renderer.render(scene, camera);
 
-            var delta = clock.getDelta();
         }
         render();
 
