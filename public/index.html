@@ -27,7 +27,10 @@
         const mixers = [];
         const clock = new THREE.Clock();
 
+
+
         //Create a light
+
         const light = new THREE.DirectionalLight('#ffffff', 0.9);
         light.position.set(-5, 5, 0);
         scene.add(light);
@@ -58,51 +61,56 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
+
         //_____________________
         //found tutorial
 
 
         //new loader
-        const loader = new THREE.GLTFLoader();
+
+        function loadScene() {
+
+            const loader = new THREE.GLTFLoader();
 
 
-        const onLoad = (gltf, position) => {
+            const onLoad = (gltf, position) => {
 
-            const model = gltf.scene.children[0];
-            // console.log(gltf);
-            // console.log(model.position);
-            var newPosition = Object.assign(model.position, position);
-            // console.log(model.position);
+                const model = gltf.scene.children[0];
+                // console.log(gltf);
+                // console.log(model.position);
+                var newPosition = Object.assign(model.position, position);
+                // console.log(model.position);
 
-            model.scale.set(0.05, 0.05, 0.05);
-
-
-            const animation = gltf.animations[0];
-
-            const mixer = new THREE.AnimationMixer(model);
-            // console.log(mixer);
-
-            const action = mixer.clipAction(animation);
-            action.play();
-            mixers.push(mixer);
-
-            scene.add(model);
+                // model.scale.set(0.05, 0.05, 0.05);
 
 
-        };
+                const animation = gltf.animations[0];
 
-        const parrotPosition = new THREE.Vector3(-2, 2, 4);
+                const mixer = new THREE.AnimationMixer(model);
+                // console.log(mixer);
 
-        loader.load('/blender-files/Parrot.glb', gltf => onLoad(gltf, parrotPosition));
+                const action = mixer.clipAction(animation);
+                action.play();
+                mixers.push(mixer);
 
-        const flamingoPosition = new THREE.Vector3(7.5, 2, 0);
+                scene.add(model);
+                render();
 
-        loader.load('/blender-files/Flamingo.glb', gltf => onLoad(gltf, flamingoPosition));
+            };
 
-        const storkPosition = new THREE.Vector3(-5, 2.5, -5);
+            const parrotPosition = new THREE.Vector3(-50, 2, 4);
 
-        loader.load('/blender-files/Stork.glb', gltf => onLoad(gltf, storkPosition));
+            loader.load('/blender-files/Parrot.glb', gltf => onLoad(gltf, parrotPosition));
 
+            const flamingoPosition = new THREE.Vector3(50, 2, 0);
+
+            loader.load('/blender-files/Flamingo.glb', gltf => onLoad(gltf, flamingoPosition));
+
+            const storkPosition = new THREE.Vector3(-5, 2.5, -50);
+
+            loader.load('/blender-files/Stork.glb', gltf => onLoad(gltf, storkPosition));
+
+        }
 
 
 
@@ -160,11 +168,7 @@
 
         const prevTime = Date.now();
 
-        function update() {
 
-
-
-        }
 
         function render() {
 
@@ -174,14 +178,16 @@
 
             for (const mixer of mixers) {
                 mixer.update(delta);
-            }
+            };
 
 
             renderer.render(scene, camera);
 
-        }
-        render();
-        update();
+        };
+
+
+        loadScene();
+
 
 
 
